@@ -2,7 +2,7 @@
 $hostname="localhost"; //local server name default localhost
 $username="root";  //mysql username default is root.
 $password="mephibosheth.";       
-$database="msh";  
+$database="mshstock";  
 $con=mysql_connect($hostname,$username,$password);
 if(! $con)
 {
