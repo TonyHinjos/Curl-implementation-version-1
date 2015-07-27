@@ -1,7 +1,7 @@
 <?php
 include('connect.php');
 // Make a MySQL Connection
-$query = "SELECT period FROM central_level_drugs ORDER BY period DESC LIMIT 1"; 
+$query = "SELECT period FROM facility_level_data ORDER BY period DESC LIMIT 1"; 
 	 
 $result = mysql_query($query);
 $period = array();

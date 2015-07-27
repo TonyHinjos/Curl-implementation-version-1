@@ -1,9 +1,24 @@
 <?php
 include('connect.php');
 include('fetch.php');
+include('county_level_year.php');
 //API login Credentials
 $username="Bootcamp";
 $password="Bootcamp2015";
+
+$html=json_decode($period_json);
+function add_date($date,$interval)
+{
+    $date = $date;
+    $date = substr_replace($date, "-", 4, 0);
+//echo($date);
+    $newdate = strtotime ( '+'.$interval.' month' , strtotime ( $date ) ) ;
+    $newdate = date ( 'Y-m' , $newdate );
+
+    return str_replace("-",null,$newdate);
+}
+$last_month=add_date($html[0],1);
+
 $html=json_decode($county_json,true);
  //print_r($html);
 //HTTP GET request -Using Curl -Response JSON
@@ -44,14 +59,14 @@ if ($result){
 
 	 foreach($json as $row)
     { 
-     if($row[2]=="rPAsF4cpNxm" || $row[2]=="w77uMi1KzOH")
+     if($row[1]==$last_month && ($row[2]=="rPAsF4cpNxm" || $row[2]=="w77uMi1KzOH"))
      {
     $drugid = $row[0];
     $periodic = $row[1];
     $drugcategoryid = $row[2];
     $drugvalue = $row[3];
 
-  $sql = "INSERT INTO county_level_drugs(drug_id,period,drug_category_id,drug_value,county_id)VALUES('$drugid','$periodic','$drugcategoryid','$drugvalue','$html[$i]')";
+  $sql = "INSERT INTO county_level_data(drug_id,period,drug_category_id,drug_value,county_id)VALUES('$drugid','$periodic','$drugcategoryid','$drugvalue','$html[$i]')";
     if(mysql_query($sql,$con))
     {
     	echo ("inserted successfully <br>");

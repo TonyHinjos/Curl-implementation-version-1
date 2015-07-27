@@ -1,13 +1,11 @@
 <?php
 include('connect.php');
-include('most_recent_year.php');
+include('facility_level_year.php');
 
 //API login Credentials
 $username="Bootcamp";
 $password="Bootcamp2015";
-//echo $period_json;
 $html=json_decode($period_json);
-//print_r($html[0]);
 function add_date($date,$interval)
 {
     $date = $date;
@@ -61,7 +59,7 @@ if ($result){
     $drugcategoryid = $row[2];
     $drugvalue = $row[3];
 
-   $sql = "INSERT INTO central_level_drugs(drug_id,period,drug_category_id,drug_value)VALUES('$drugid','$periodic','$drugcategoryid','$drugvalue')";
+   $sql = "INSERT INTO facility_level_data(drug_id,period,drug_category_id,drug_value)VALUES('$drugid','$periodic','$drugcategoryid','$drugvalue')";
     if(mysql_query($sql,$con))
     {
     	echo ("inserted successfully <br>");

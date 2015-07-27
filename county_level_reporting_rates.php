@@ -1,9 +1,24 @@
 <?php
 include('connect.php');
 include('fetch.php');
+include('county_level_reporting_rates_year.php');
 //API login Credentials
 $username="Bootcamp";
 $password="Bootcamp2015";
+
+$html=json_decode($period_json);
+function add_date($date,$interval)
+{
+    $date = $date;
+    $date = substr_replace($date, "-", 4, 0);
+//echo($date);
+    $newdate = strtotime ( '+'.$interval.' month' , strtotime ( $date ) ) ;
+    $newdate = date ( 'Y-m' , $newdate );
+
+    return str_replace("-",null,$newdate);
+}
+$last_month=add_date($html[0],1);
+
 $html=json_decode($county_json,true);
  //print_r($html);
 //HTTP GET request -Using Curl -Response JSON
@@ -43,7 +58,8 @@ if ($result){
 
 	 foreach($json as $row)
     { 
-
+       if($row[1]==$last_month)
+     {
     $periodic = $row[1];
     $reportvalue = $row[2];
 
@@ -56,6 +72,7 @@ if ($result){
        die('Error : ' . mysql_error()); 
     }
 
+}
 }
 
 else{
