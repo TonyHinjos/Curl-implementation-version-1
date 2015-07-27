@@ -1,9 +1,25 @@
 <?php
 include('connect.php');
+include('most_recent_year.php');
+
 //API login Credentials
 $username="Bootcamp";
 $password="Bootcamp2015";
+//echo $period_json;
+$html=json_decode($period_json);
+//print_r($html[0]);
+function add_date($date,$interval)
+{
+    $date = $date;
+    $date = substr_replace($date, "-", 4, 0);
+//echo($date);
+    $newdate = strtotime ( '+'.$interval.' month' , strtotime ( $date ) ) ;
+    $newdate = date ( 'Y-m' , $newdate );
 
+    return str_replace("-",null,$newdate);
+}
+$last_month=add_date($html[0],1);
+//print_r($last_month);
 //HTTP GET request -Using Curl -Response JSON
 
 $url="http://test.hiskenya.org/api/analytics?dimension=dx:BnGDrFwyQp9;c0MB4RmVjxk;qnZmg5tNSMy;gVp1KSFI69G;cPlWFYbBacW&dimension=pe:LAST_12_MONTHS&dimension=co&filter=ou:HfVjCurKxh2&displayProperty=NAME";
@@ -38,7 +54,7 @@ if ($result){
 
 	 foreach($json as $row)
     { 
-     if($row[2]=="rPAsF4cpNxm" || $row[2]=="w77uMi1KzOH")
+     if($row[1]==$last_month && ($row[2]=="rPAsF4cpNxm" || $row[2]=="w77uMi1KzOH"))
      {
     $drugid = $row[0];
     $periodic = $row[1];
